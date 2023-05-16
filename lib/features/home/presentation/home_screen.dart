@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_technical_test/features/home/presentation/provider/habitats_provider.dart';
+import 'package:flutter_technical_test/features/home/presentation/provider/pokemons_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,60 +36,86 @@ class HomeScreen extends StatelessWidget {
           ),
           ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 80),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const ScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return TextButton(
-                  onPressed: () {},
-                  child: const Text("Button"),
-                );
-              },
-            ),
+            child: Consumer(builder: (context, ref, _) {
+              final result = ref.watch(fetchHabitatProvider);
+              return result.when(data: (data) {
+                return data.fold((l) {
+                  return Center(child: Text(l.message));
+                }, (data) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: data.habitats.length,
+                    itemBuilder: (context, index) {
+                      return TextButton(
+                        onPressed: () {},
+                        child: Text(data.habitats[index].name),
+                      );
+                    },
+                  );
+                });
+              }, error: (_, __) {
+                return const Center(child: Text("error"));
+              }, loading: () {
+                return const Center(child: CircularProgressIndicator());
+              });
+            }),
           ),
           Text(
             "Pokemon List",
             style: Theme.of(context).textTheme.displayMedium,
             textAlign: TextAlign.center,
           ),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemCount: 10,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              childAspectRatio: 3 / 5,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
-            ),
-            itemBuilder: (context, index) {
-              return Card(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.bookmark_add),
-                    ),
+          Consumer(builder: (context, ref, _) {
+            final result = ref.watch(fetchPokemonProvider);
+            return result.when(data: (data) {
+              return data.fold((l) {
+                return Center(child: Text(l.message));
+              }, (data) {
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemCount: data.pokemons.length,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 3 / 5,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
                   ),
-                  Image.network(
-                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
-                    width: double.infinity,
-                    height: 200,
-                  ),
-                  Text(
-                    "aaa",
-                    style: Theme.of(context).textTheme.displaySmall,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ));
-            },
-          ),
+                  itemBuilder: (context, index) {
+                    return Card(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.bookmark_add),
+                          ),
+                        ),
+                        Image.network(
+                          data.pokemons[index].image,
+                          width: double.infinity,
+                          height: 200,
+                        ),
+                        Text(
+                          data.pokemons[index].name,
+                          style: Theme.of(context).textTheme.displaySmall,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ));
+                  },
+                );
+              });
+            }, error: (_, __) {
+              return const Center(child: Text("error"));
+            }, loading: () {
+              return const Center(child: CircularProgressIndicator());
+            });
+          }),
         ],
       ),
     );

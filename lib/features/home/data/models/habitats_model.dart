@@ -12,7 +12,9 @@ class HabitatsModel extends Habitats {
         count: json['count'],
         next: json['next'],
         previous: json['previous'],
-        habitats: json['habitats'],
+        habitats: (json['results'] as List<dynamic>)
+            .map((e) => HabitatModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
       );
 }
 

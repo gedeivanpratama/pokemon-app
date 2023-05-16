@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_technical_test/core/utility/static.dart';
 import 'package:flutter_technical_test/features/home/data/models/pokemons_model.dart';
 import 'package:flutter_technical_test/features/home/domain/entities/pokemons.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../../../helpers.dart';
 
 void main() {
   const testPokemons = PokemonsModel(
@@ -35,5 +36,3 @@ void main() {
     });
   });
 }
-
-String fixture(String name) => File('test/json/$name').readAsStringSync();

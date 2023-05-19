@@ -6,14 +6,16 @@
 import 'dart:async' as _i7;
 
 import 'package:dartz/dartz.dart' as _i3;
-import 'package:flutter_technical_test/core/utility/errors.dart' as _i8;
-import 'package:flutter_technical_test/core/utility/metwork_info.dart' as _i10;
+import 'package:flutter_technical_test/core/utility/errors.dart' as _i10;
+import 'package:flutter_technical_test/core/utility/metwork_info.dart' as _i11;
 import 'package:flutter_technical_test/features/home/data/datasources/pokemon_datasorce.dart'
     as _i6;
+import 'package:flutter_technical_test/features/home/data/datasources/pokemon_local_datasource.dart'
+    as _i8;
 import 'package:flutter_technical_test/features/home/data/models/pokemons_model.dart'
     as _i2;
 import 'package:flutter_technical_test/features/home/domain/entities/habitats.dart'
-    as _i13;
+    as _i14;
 import 'package:flutter_technical_test/features/home/domain/entities/pokemons.dart'
     as _i9;
 import 'package:flutter_technical_test/features/home/domain/repositories/habitat_repository.dart'
@@ -21,9 +23,9 @@ import 'package:flutter_technical_test/features/home/domain/repositories/habitat
 import 'package:flutter_technical_test/features/home/domain/repositories/pokemon_repository.dart'
     as _i4;
 import 'package:flutter_technical_test/features/home/domain/usecases/get_habitats.dart'
-    as _i12;
+    as _i13;
 import 'package:flutter_technical_test/features/home/domain/usecases/get_pokemons.dart'
-    as _i11;
+    as _i12;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -103,6 +105,40 @@ class MockPokemonDataSource extends _i1.Mock implements _i6.PokemonDataSource {
       ) as _i7.Future<_i2.PokemonsModel>);
 }
 
+/// A class which mocks [PokemonLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPokemonLocalDataSource extends _i1.Mock
+    implements _i8.PokemonLocalDataSource {
+  MockPokemonLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i7.Future<_i2.PokemonsModel> getPokemons() => (super.noSuchMethod(
+        Invocation.method(
+          #getPokemons,
+          [],
+        ),
+        returnValue: _i7.Future<_i2.PokemonsModel>.value(_FakePokemonsModel_0(
+          this,
+          Invocation.method(
+            #getPokemons,
+            [],
+          ),
+        )),
+      ) as _i7.Future<_i2.PokemonsModel>);
+  @override
+  _i7.Future<bool> setPokemons(List<_i9.Pokemon>? habitats) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setPokemons,
+          [habitats],
+        ),
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
+}
+
 /// A class which mocks [PokemonRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -112,27 +148,27 @@ class MockPokemonRepository extends _i1.Mock implements _i4.PokemonRepository {
   }
 
   @override
-  _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemons>> getPokemons() =>
+  _i7.Future<_i3.Either<_i10.Failure, _i9.Pokemons>> getPokemons() =>
       (super.noSuchMethod(
         Invocation.method(
           #getPokemons,
           [],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemons>>.value(
-            _FakeEither_1<_i8.Failure, _i9.Pokemons>(
+        returnValue: _i7.Future<_i3.Either<_i10.Failure, _i9.Pokemons>>.value(
+            _FakeEither_1<_i10.Failure, _i9.Pokemons>(
           this,
           Invocation.method(
             #getPokemons,
             [],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemons>>);
+      ) as _i7.Future<_i3.Either<_i10.Failure, _i9.Pokemons>>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i10.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i11.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
@@ -147,7 +183,7 @@ class MockNetworkInfo extends _i1.Mock implements _i10.NetworkInfo {
 /// A class which mocks [GetPokemons].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetPokemons extends _i1.Mock implements _i11.GetPokemons {
+class MockGetPokemons extends _i1.Mock implements _i12.GetPokemons {
   MockGetPokemons() {
     _i1.throwOnMissingStub(this);
   }
@@ -161,27 +197,27 @@ class MockGetPokemons extends _i1.Mock implements _i11.GetPokemons {
         ),
       ) as _i4.PokemonRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemons>> call() =>
+  _i7.Future<_i3.Either<_i10.Failure, _i9.Pokemons>> call() =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemons>>.value(
-            _FakeEither_1<_i8.Failure, _i9.Pokemons>(
+        returnValue: _i7.Future<_i3.Either<_i10.Failure, _i9.Pokemons>>.value(
+            _FakeEither_1<_i10.Failure, _i9.Pokemons>(
           this,
           Invocation.method(
             #call,
             [],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, _i9.Pokemons>>);
+      ) as _i7.Future<_i3.Either<_i10.Failure, _i9.Pokemons>>);
 }
 
 /// A class which mocks [GetHabitats].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetHabitats extends _i1.Mock implements _i12.GetHabitats {
+class MockGetHabitats extends _i1.Mock implements _i13.GetHabitats {
   MockGetHabitats() {
     _i1.throwOnMissingStub(this);
   }
@@ -195,19 +231,19 @@ class MockGetHabitats extends _i1.Mock implements _i12.GetHabitats {
         ),
       ) as _i5.HabitatRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, _i13.Habitats>> call() =>
+  _i7.Future<_i3.Either<_i10.Failure, _i14.Habitats>> call() =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i13.Habitats>>.value(
-            _FakeEither_1<_i8.Failure, _i13.Habitats>(
+        returnValue: _i7.Future<_i3.Either<_i10.Failure, _i14.Habitats>>.value(
+            _FakeEither_1<_i10.Failure, _i14.Habitats>(
           this,
           Invocation.method(
             #call,
             [],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, _i13.Habitats>>);
+      ) as _i7.Future<_i3.Either<_i10.Failure, _i14.Habitats>>);
 }

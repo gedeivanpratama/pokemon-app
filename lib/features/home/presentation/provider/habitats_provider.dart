@@ -13,7 +13,7 @@ class HabitatNotifier extends AsyncNotifier<Either<Failure, Habitats>> {
   }
 
   Future<Either<Failure, Habitats>> _getHabitats() async {
-    final getHabitats = ref.watch(habitatProvider);
+    final getHabitats = await ref.watch(habitatProvider.future);
     return await getHabitats();
   }
 }

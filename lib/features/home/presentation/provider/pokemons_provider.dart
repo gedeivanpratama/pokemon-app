@@ -19,7 +19,7 @@ class PokemonNotifier extends AsyncNotifier<Either<Failure, Pokemons>> {
   }
 
   Future<Either<Failure, Pokemons>> _fetchPokemons() async {
-    final getPokemons = ref.watch(pokemonProvider);
+    final getPokemons = await ref.watch(pokemonProvider.future);
 
     final result = await getPokemons();
 

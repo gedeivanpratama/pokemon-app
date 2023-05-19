@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_technical_test/features/home/data/datasources/pokemon_local_datasource.dart';
 import '../../../../core/utility/errors.dart';
 import '../../../../core/utility/metwork_info.dart';
 import '../datasources/pokemon_datasorce.dart';
@@ -9,21 +10,27 @@ import '../../domain/repositories/pokemon_repository.dart';
 class PokemonRepositoryImplement implements PokemonRepository {
   NetworkInfo networkInfo;
   PokemonDataSource dataSource;
+  PokemonLocalDataSource localSource;
 
   PokemonRepositoryImplement({
     required this.networkInfo,
     required this.dataSource,
+    required this.localSource,
   });
 
   @override
   Future<Either<Failure, Pokemons>> getPokemons() async {
     if (!await networkInfo.isConnected) {
-      return const Left(
-        ConnectionFailure(
-          status: 408,
-          message: "no internet connection",
-        ),
-      );
+      final localData = await localSource.getPokemons();
+      if (localData.pokemons.isEmpty) {
+        return const Left(
+          ConnectionFailure(
+            status: 408,
+            message: "no internet Connection",
+          ),
+        );
+      }
+      return Right(localData);
     }
 
     try {

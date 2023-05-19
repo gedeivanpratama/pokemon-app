@@ -4,8 +4,6 @@ import 'package:flutter_technical_test/features/home/data/models/pokemons_model.
 import 'package:flutter_technical_test/features/home/domain/entities/pokemons.dart';
 import 'package:isar/isar.dart';
 
-import '../models/habitat_local_model.dart';
-
 abstract class PokemonLocalDataSource {
   Future<PokemonsModel> getPokemons();
   Future<bool> setPokemons(List<Pokemon> habitats);
@@ -35,15 +33,19 @@ class PokemonLocalDatasourceImplement implements PokemonLocalDataSource {
   }
 
   @override
-  Future<bool> setPokemons(List<Pokemon> habitats) async {
-    await isar.writeTxn(() async {
-      for (var habitat in habitats) {
-        HabitatLocalModel data = HabitatLocalModel();
-        data.name = habitat.name;
-        data.url = habitat.image.toImageUrl();
-        await isar.habitatLocalModels.put(data);
-      }
-    });
-    return true;
+  Future<bool> setPokemons(List<Pokemon> pokemons) async {
+    try {
+      await isar.writeTxn(() async {
+        for (var pokemon in pokemons) {
+          PokemonLocalModel data = PokemonLocalModel();
+          data.name = pokemon.name;
+          data.url = pokemon.image.toImageUrl();
+          await isar.pokemonLocalModels.put(data);
+        }
+      });
+      return true;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

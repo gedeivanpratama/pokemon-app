@@ -99,6 +99,9 @@ class HomeScreen extends StatelessWidget {
                           data.pokemons[index].image,
                           width: double.infinity,
                           height: 200,
+                          errorBuilder: (context, _, __) {
+                            return Image.asset("assets/images/no_image.jpg");
+                          },
                         ),
                         Text(
                           data.pokemons[index].name,

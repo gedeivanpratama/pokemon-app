@@ -35,6 +35,7 @@ class PokemonRepositoryImplement implements PokemonRepository {
 
     try {
       final response = await dataSource.getPokemons();
+      await localSource.setPokemons(response.pokemons);
       return Right(response);
     } on DioError catch (e) {
       return Left(
